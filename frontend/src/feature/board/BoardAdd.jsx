@@ -28,6 +28,13 @@ export function BoardAdd() {
       })
       .catch((err) => {
         console.log("잘 안되면 실행되는 코드");
+        console.log(err);
+        const message = err.response.data.message;
+
+        if (message) {
+          // toast 띄우기
+          toast(message.text, { type: message.type });
+        }
       })
       .finally(() => {
         console.log("항상 실행되는 코드");
