@@ -17,6 +17,8 @@ export function BoardEdit() {
   const [board, setBoard] = useState(null);
   const [searchParams] = useSearchParams();
   const [modalShow, setModalShow] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,6 +38,7 @@ export function BoardEdit() {
   }, []);
 
   function handleSaveButtonClick() {
+    setIsProcessing(true);
     axios
       .put(`/api/board/${searchParams.get("id")}`, board)
       .then((res) => {
@@ -46,15 +49,33 @@ export function BoardEdit() {
       })
       .catch((err) => {
         console.log("bad");
-        toast("게시물 수정시 오류가 발생하였습니다.", { type: "warning" });
+        const message = err.response.data.message;
+        if (message) {
+          toast(message.text, { type: message.type });
+        } else {
+          toast("게시물 수정시 오류가 발생하였습니다.", { type: "warning" });
+        }
       })
       .finally(() => {
         console.log("always");
+        setModalShow(false);
+        setIsProcessing(false);
       });
   }
 
   if (!board) {
     return <Spinner />;
+  }
+
+  let validate = true;
+  if (board.title.trim() === "") {
+    validate = false;
+  }
+  if (board.content.trim() === "") {
+    validate = false;
+  }
+  if (board.author.trim() === "") {
+    validate = false;
   }
 
   return (
@@ -98,8 +119,13 @@ export function BoardEdit() {
           >
             취소
           </Button>
-          <Button onClick={() => setModalShow(true)} variant="primary">
-            저장
+          <Button
+            disabled={!validate || isProcessing}
+            onClick={() => setModalShow(true)}
+            variant="primary"
+          >
+            {isProcessing && <Spinner size="sm" />}
+            {isProcessing || "저장"}
           </Button>
         </div>
       </Col>
@@ -113,8 +139,13 @@ export function BoardEdit() {
           <Button variant="outline-dark" onClick={() => setModalShow(false)}>
             취소
           </Button>
-          <Button variant="primary" onClick={handleSaveButtonClick}>
-            저장
+          <Button
+            disabled={isProcessing}
+            variant="primary"
+            onClick={handleSaveButtonClick}
+          >
+            {isProcessing && <Spinner size="sm" />}
+            {isProcessing || "저장"}
           </Button>
         </Modal.Footer>
       </Modal>
