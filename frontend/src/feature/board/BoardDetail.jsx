@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import {
+  Button,
   Col,
   FormControl,
   FormGroup,
@@ -73,7 +74,12 @@ export function BoardDetail() {
             />
           </FormGroup>
         </div>
-        <div>{/*  수정 삭제 버튼*/}</div>
+        <div>
+          <Button className="me-2" variant="outline-danger">
+            삭제
+          </Button>
+          <Button variant="outline-info">수정</Button>
+        </div>
       </Col>
     </Row>
   );
