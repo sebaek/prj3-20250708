@@ -10,13 +10,16 @@ import {
 } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useSearchParams } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
+import { toast } from "react-toastify";
 
 export function MemberDetail() {
   const [member, setMember] = useState(null);
   const [modalShow, setModalShow] = useState(false);
   const [password, setPassword] = useState("");
   const [params] = useSearchParams();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -39,12 +42,19 @@ export function MemberDetail() {
       })
       .then((res) => {
         console.log("good");
+        const message = res.data.message;
+        toast(message.text, { type: message.type });
+        navigate("/");
       })
       .catch((err) => {
         console.log("bad");
+        const message = err.response.data.message;
+        toast(message.text, { type: message.type });
       })
       .finally(() => {
         console.log("always");
+        setModalShow(false);
+        setPassword("");
       });
   }
 
