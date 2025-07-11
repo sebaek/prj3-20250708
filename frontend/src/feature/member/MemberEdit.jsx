@@ -83,7 +83,32 @@ export function MemberEdit() {
     passwordConfirm = false;
   }
 
-  function handleChangePasswordButtonClick() {}
+  function handleChangePasswordButtonClick() {
+    axios
+      .put("/api/member/changePassword", {
+        email: member.email,
+        oldPassword: oldPassword,
+        newPassword: newPassword1,
+      })
+      .then((res) => {
+        const message = res.data.message;
+        if (message) {
+          toast(message.text, { type: message.type });
+        }
+      })
+      .catch((err) => {
+        const message = err.response.data.message;
+        if (message) {
+          toast(message.text, { type: message.type });
+        }
+      })
+      .finally(() => {
+        setOldPassword("");
+        setNewPassword1("");
+        setNewPassword2("");
+        setPasswordModalShow(false);
+      });
+  }
 
   return (
     <Row className="justify-content-center">
