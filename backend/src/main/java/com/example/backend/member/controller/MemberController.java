@@ -40,7 +40,13 @@ public class MemberController {
     }
 
     @PutMapping("changePassword")
-    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordForm data) {
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordForm data,
+                                            Authentication authentication) {
+        if (!authentication.getName().equals(data.getEmail())) {
+            return ResponseEntity.status(403).build();
+        }
+        
         try {
             memberService.changePassword(data);
         } catch (Exception e) {
@@ -59,7 +65,13 @@ public class MemberController {
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody MemberForm memberForm) {
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> update(@RequestBody MemberForm memberForm,
+                                    Authentication authentication) {
+        if (!authentication.getName().equals(memberForm.getEmail())) {
+            return ResponseEntity.status(403).build();
+        }
+
 //        System.out.println(memberForm);
         try {
             memberService.update(memberForm);
@@ -79,7 +91,12 @@ public class MemberController {
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteMember(@RequestBody MemberForm memberForm) {
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> deleteMember(@RequestBody MemberForm memberForm,
+                                          Authentication authentication) {
+        if (!authentication.getName().equals(memberForm.getEmail())) {
+            return ResponseEntity.status(403).build();
+        }
 
         try {
             memberService.delete(memberForm);
