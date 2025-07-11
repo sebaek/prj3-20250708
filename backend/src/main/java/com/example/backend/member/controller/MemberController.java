@@ -4,6 +4,8 @@ import com.example.backend.member.dto.*;
 import com.example.backend.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -96,8 +98,13 @@ public class MemberController {
     }
 
     @GetMapping(params = "email")
-    public MemberDto getMember(String email) {
-        return memberService.get(email);
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> getMember(String email, Authentication authentication) {
+        if (authentication.getName().equals(email)) {
+            return ResponseEntity.ok().body(memberService.get(email));
+        } else {
+            return ResponseEntity.status(403).build();
+        }
     }
 
     @GetMapping("list")
