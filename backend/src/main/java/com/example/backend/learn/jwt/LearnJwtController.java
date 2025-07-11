@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.Instant;
 import java.util.Map;
 
 @RestController
@@ -25,11 +26,32 @@ public class LearnJwtController {
 
         // jwt 토큰 완성
         // sign어떻게.정보(claim,payload).sign
+
+        // claim/payload 에 민감한 정보 담지 않기
+
+        // 꼭 작성해야 하는 claim들 (4개)
+        // 어디서 발행 Issuer (iss)
+        // 누구를 위한 토큰 Subject (sub)
+        // 언제 만들었는 지 Issued At (iat)
+        // 언제까지 유효한 지 Expiration Time (exp)
+
+        // 우리가 필요한 것 (1개)
+        // 권한 Scope (scp)
+
         JwtClaimsSet claimsSet = JwtClaimsSet.builder()
-                .claim("email", data.get("email"))
-                .claim("password", data.get("password"))
-                .claim("roles", "")
-                .claim("nickname", "")
+//                .claim("sub", data.get("email"))
+                .subject(data.get("email"))
+
+//                .claim("iss", "self")
+                .issuer("self")
+
+//                .claim("iat", Instant.now())
+                .issuedAt(Instant.now())
+
+//                .claim("exp", Instant.now().plusSeconds(60 * 60 * 24 * 365))
+                .expiresAt(Instant.now().plusSeconds(60 * 60 * 24 * 365))
+
+                .claim("scp", "admin user manager") // space로 구분
                 .build();
 
         // jwt 응답
