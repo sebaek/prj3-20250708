@@ -19,7 +19,7 @@ public class LearnJwtController {
     private final JwtEncoder jwtEncoder;
 
     @PostMapping("sub1")
-    public void sub1(@RequestBody Map<String, String> data) {
+    public String sub1(@RequestBody Map<String, String> data) {
         System.out.println("email = " + data.get("email"));
         System.out.println("password = " + data.get("password"));
 
