@@ -81,11 +81,19 @@ function App() {
   }
 
   function handleButton10Click() {
-    axios.get("/api/learn/jwt/sub10");
+    axios.get("/api/learn/jwt/sub10", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
   }
 
   function handleButton9Click() {
-    axios.get("/api/learn/jwt/sub9");
+    axios.get("/api/learn/jwt/sub9", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
   }
 
   return (
