@@ -4,6 +4,7 @@ import {
   FormControl,
   FormGroup,
   FormLabel,
+  FormText,
   Modal,
   Row,
   Spinner,
@@ -63,6 +64,23 @@ export function MemberEdit() {
 
   if (!member) {
     return <Spinner />;
+  }
+
+  // 암호 변경 버튼 활성화 여부
+  let changePasswordButtonDisabled = false;
+  let passwordConfirm = true;
+  if (oldPassword === "") {
+    changePasswordButtonDisabled = true;
+  }
+  if (newPassword1 === "") {
+    changePasswordButtonDisabled = true;
+  }
+  if (newPassword2 === "") {
+    changePasswordButtonDisabled = true;
+  }
+  if (newPassword1 !== newPassword2) {
+    changePasswordButtonDisabled = true;
+    passwordConfirm = false;
   }
 
   function handleChangePasswordButtonClick() {}
@@ -187,6 +205,11 @@ export function MemberEdit() {
               value={newPassword2}
               onChange={(e) => setNewPassword2(e.target.value)}
             ></FormControl>
+            {passwordConfirm || (
+              <FormText className="text-danger">
+                패스워드가 일치하지 않습니다.
+              </FormText>
+            )}
           </FormGroup>
         </Modal.Body>
         <Modal.Footer>
@@ -196,7 +219,11 @@ export function MemberEdit() {
           >
             취소
           </Button>
-          <Button variant="primary" onClick={handleChangePasswordButtonClick}>
+          <Button
+            disabled={changePasswordButtonDisabled}
+            variant="primary"
+            onClick={handleChangePasswordButtonClick}
+          >
             변경
           </Button>
         </Modal.Footer>
