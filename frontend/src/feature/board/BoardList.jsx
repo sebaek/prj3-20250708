@@ -5,6 +5,7 @@ import { useNavigate, useSearchParams } from "react-router";
 
 export function BoardList() {
   const [boardList, setBoardList] = useState(null);
+  const [pageInfo, setPageInfo] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -14,7 +15,8 @@ export function BoardList() {
       .get(`/api/board/list?${searchParams}`)
       .then((res) => {
         console.log("잘 될 때 코드");
-        setBoardList(res.data);
+        setBoardList(res.data.boardList);
+        setPageInfo(res.data.pageInfo);
       })
       .catch((err) => {
         console.log("잘 안될 때 코드");
@@ -35,7 +37,7 @@ export function BoardList() {
   }
 
   const pageNumbers = [];
-  for (let i = 1; i <= 10; i++) {
+  for (let i = pageInfo.leftPageNumber; i <= pageInfo.rightPageNumber; i++) {
     pageNumbers.push(i);
   }
 

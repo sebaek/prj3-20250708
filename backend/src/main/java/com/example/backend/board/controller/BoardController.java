@@ -1,8 +1,6 @@
 package com.example.backend.board.controller;
 
 import com.example.backend.board.dto.BoardDto;
-import com.example.backend.board.dto.BoardListDto;
-import com.example.backend.board.dto.BoardListInfo;
 import com.example.backend.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +8,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 //@Controller
@@ -55,10 +52,11 @@ public class BoardController {
     }
 
     @GetMapping("list")
-    public List<BoardListDto> getAllBoards(
-            @RequestParam(value = "q", defaultValue = "") String keyword) {
+    public Map<String, Object> getAllBoards(
+            @RequestParam(value = "q", defaultValue = "") String keyword,
+            @RequestParam(value = "p", defaultValue = "1") Integer pageNumber) {
 
-        return boardService.list(keyword);
+        return boardService.list(keyword, pageNumber);
     }
 
     @PostMapping("add")
