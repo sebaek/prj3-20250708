@@ -73,7 +73,7 @@ public class BoardService {
         if (authentication == null) {
             throw new RuntimeException("권한이 없습니다.");
         }
-        
+
         Board db = boardRepository.findById(id).get();
 
         if (db.getAuthor().getEmail().equals(authentication.getName())) {
@@ -83,17 +83,26 @@ public class BoardService {
         }
     }
 
-    public void update(BoardDto boardDto) {
+    public void update(BoardDto boardDto, Authentication authentication) {
+        if (authentication == null) {
+            throw new RuntimeException("권한이 없습니다.");
+        }
+
         // 조회 
         Board db = boardRepository.findById(boardDto.getId()).get();
 
-        // 변경
-        db.setTitle(boardDto.getTitle());
-        db.setContent(boardDto.getContent());
-        db.setAuthor(boardDto.getAuthor());
+        if (db.getAuthor().getEmail().equals(authentication.getName())) {
+            // 변경
+            db.setTitle(boardDto.getTitle());
+            db.setContent(boardDto.getContent());
 
-        // 저장
-        boardRepository.save(db);
+            // 저장
+            boardRepository.save(db);
+
+        } else {
+            throw new RuntimeException("권한이 없습니다.");
+        }
+
 
     }
 }

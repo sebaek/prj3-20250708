@@ -23,11 +23,13 @@ public class BoardController {
     private final BoardService boardService;
 
     @PutMapping("{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> updateBoard(@PathVariable Integer id,
-                                         @RequestBody BoardDto boardDto) {
+                                         @RequestBody BoardDto boardDto,
+                                         Authentication authentication) {
         boolean result = boardService.validate(boardDto);
         if (result) {
-            boardService.update(boardDto);
+            boardService.update(boardDto, authentication);
 
             return ResponseEntity.ok().body(Map.of("message",
                     Map.of("type", "success", "text", id + "번 게시물이 수정 되었습니다.")));
