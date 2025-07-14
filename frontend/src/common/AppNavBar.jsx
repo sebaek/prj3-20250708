@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import {
   Button,
   Container,
@@ -14,9 +14,12 @@ import { AuthenticationContext } from "./AuthenticationContextProvider.jsx";
 export function AppNavBar() {
   const [keyword, setKeyword] = useState("");
   const { user, isAdmin } = useContext(AuthenticationContext);
+  const navigate = useNavigate();
 
-  function handleSearchFormSubmit() {
-    console.log("조회 폼 서브밋");
+  function handleSearchFormSubmit(e) {
+    e.preventDefault();
+    // console.log("조회 폼 서브밋");
+    navigate("/?q=" + keyword);
   }
 
   return (
@@ -67,7 +70,7 @@ export function AppNavBar() {
             </Nav>
 
             <Form
-              inline
+              inline="true"
               onSubmit={handleSearchFormSubmit}
               className="order-lg-2 mx-lg-auto"
             >
