@@ -1,5 +1,6 @@
 package com.example.backend.board.service;
 
+import com.example.backend.board.dto.BoardListDto;
 import com.example.backend.board.dto.BoardListInfo;
 import com.example.backend.board.entity.Board;
 import com.example.backend.board.dto.BoardDto;
@@ -51,8 +52,9 @@ public class BoardService {
         return true;
     }
 
-    public List<BoardListInfo> list() {
-        return boardRepository.findAllByOrderByIdDesc();
+    public List<BoardListDto> list() {
+//        return boardRepository.findAllByOrderByIdDesc();
+        return boardRepository.findAllBy();
     }
 
     public BoardDto getBoardById(Integer id) {
