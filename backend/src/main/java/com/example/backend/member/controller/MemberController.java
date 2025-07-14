@@ -46,7 +46,7 @@ public class MemberController {
         if (!authentication.getName().equals(data.getEmail())) {
             return ResponseEntity.status(403).build();
         }
-        
+
         try {
             memberService.changePassword(data);
         } catch (Exception e) {
@@ -125,6 +125,7 @@ public class MemberController {
     }
 
     @GetMapping("list")
+    @PreAuthorize("hasAuthority('SCOPE_admin')")
     public List<MemberListInfo> list() {
         return memberService.list();
     }
