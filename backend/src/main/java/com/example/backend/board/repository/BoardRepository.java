@@ -13,14 +13,15 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
     List<BoardListInfo> findAllByOrderByIdDesc();
 
     @Query(value = """
-            SELECT b.id id,
-                   b.title title,
-                   b.inserted_at inserted_at,
-                   m.nick_name nick_name
-            FROM board b JOIN member m
-                        ON b.author = m.email
+            SELECT new com.example.backend.board.dto.BoardListDto(
+                        b.id,
+                        b.title,
+                        m.nickName,
+                        b.insertedAt)
+            FROM Board b JOIN Member m
+                        ON b.author.email = m.email
             ORDER BY b.id DESC
-            """, nativeQuery = true)
+            """)
     List<BoardListDto> findAllBy();
 
     @Query(value = """
