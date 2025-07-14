@@ -5,7 +5,6 @@ import com.example.backend.board.dto.BoardListInfo;
 import com.example.backend.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
