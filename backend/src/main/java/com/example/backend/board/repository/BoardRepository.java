@@ -25,15 +25,17 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
     List<BoardListDto> findAllBy();
 
     @Query(value = """
-            SELECT b.id id,
-                   b.title title,
-                   b.content content,
-                   b.inserted_at inserted_at,
-                   m.email author_email,
-                   m.nick_name author_nick_name
-            FROM board b JOIN member m
-                ON b.author = m.email
+            SELECT 
+                new com.example.backend.board.dto.BoardDto
+                   (b.id,
+                   b.title,
+                   b.content,
+                   m.email,
+                   m.nickName,
+                   b.insertedAt)
+            FROM Board b JOIN Member m
+                ON b.author.email = m.email
             WHERE b.id = :id
-            """, nativeQuery = true)
+            """)
     BoardDto findBoardById(Integer id);
 }
