@@ -1,12 +1,14 @@
-import { Button, FormControl } from "react-bootstrap";
+import { Button, FormControl, Spinner } from "react-bootstrap";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 export function CommentAdd({ boardId }) {
   const [comment, setComment] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false);
 
   function handleCommentSaveClick() {
+    setIsProcessing(true);
     axios
       .post("/api/comment", { boardId: boardId, comment: comment })
       .then((res) => {
@@ -22,7 +24,9 @@ export function CommentAdd({ boardId }) {
           toast(message.text, { type: message.type });
         }
       })
-      .finally(() => {});
+      .finally(() => {
+        setIsProcessing(false);
+      });
   }
 
   let saveButtonDisabled = false;
@@ -38,7 +42,11 @@ export function CommentAdd({ boardId }) {
         value={comment}
         onChange={(e) => setComment(e.target.value)}
       />
-      <Button disabled={saveButtonDisabled} onClick={handleCommentSaveClick}>
+      <Button
+        disabled={isProcessing || saveButtonDisabled}
+        onClick={handleCommentSaveClick}
+      >
+        {isProcessing && <Spinner size="sm" />}
         댓글 저장
       </Button>
       ;
