@@ -24,6 +24,11 @@ export function CommentAdd({ boardId }) {
       .finally(() => {});
   }
 
+  let saveButtonDisabled = false;
+  if (comment.trim().length === 0) {
+    saveButtonDisabled = true;
+  }
+
   return (
     <div>
       <FormControl
@@ -32,7 +37,10 @@ export function CommentAdd({ boardId }) {
         value={comment}
         onChange={(e) => setComment(e.target.value)}
       />
-      <Button onClick={handleCommentSaveClick}>댓글 저장</Button>;
+      <Button disabled={saveButtonDisabled} onClick={handleCommentSaveClick}>
+        댓글 저장
+      </Button>
+      ;
     </div>
   );
 }
