@@ -1,4 +1,6 @@
 import { Button, FormControl } from "react-bootstrap";
+import { useState } from "react";
+import axios from "axios";
 
 export function CommentAdd({ boardId }) {
   const [comment, setComment] = useState("");
