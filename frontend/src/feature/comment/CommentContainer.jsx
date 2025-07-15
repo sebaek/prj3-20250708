@@ -1,13 +1,33 @@
 import { CommentAdd } from "./CommentAdd.jsx";
 import { CommentList } from "./CommentList.jsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Spinner } from "react-bootstrap";
+import { CommentItem } from "./CommentItem.jsx";
+import axios from "axios";
 
 export function CommentContainer({ boardId }) {
   const [isProcessing, setIsProcessing] = useState(false);
+  const [commentList, setCommentList] = useState(null);
+
+  useEffect(() => {
+    if (!isProcessing) {
+      axios
+        .get(`/api/comment/board/${boardId}`)
+        .then((res) => {
+          setCommentList(res.data);
+        })
+        .catch((err) => {})
+        .finally(() => {});
+    }
+  }, [isProcessing]);
+
+  if (commentList === null) {
+    return <Spinner />;
+  }
 
   return (
     <div>
-      <h3>댓글 창</h3>
+      <h3>댓글 ({commentList.length})</h3>
 
       <CommentAdd
         boardId={boardId}
@@ -15,7 +35,7 @@ export function CommentContainer({ boardId }) {
         setIsProcessing={setIsProcessing}
       />
       <CommentList
-        boardId={boardId}
+        commentList={commentList}
         isProcessing={isProcessing}
         setIsProcessing={setIsProcessing}
       />
