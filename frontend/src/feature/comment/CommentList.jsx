@@ -48,7 +48,7 @@ function CommentItem({ comment, isProcessing, setIsProcessing }) {
       {/*  댓글 삭제 모달  */}
       <Modal show={deleteModalShow} onHide={() => setDeleteModalShow(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>게시물 삭제 확인</Modal.Title>
+          <Modal.Title>댓글 삭제 확인</Modal.Title>
         </Modal.Header>
         <Modal.Body>댓글을 삭제하시겠습니까?</Modal.Body>
         <Modal.Footer>
@@ -72,7 +72,7 @@ function CommentItem({ comment, isProcessing, setIsProcessing }) {
       {/*  댓글 수정 모달  */}
       <Modal show={editModalShow} onHide={() => setEditModalShow(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>게시물 삭제 확인</Modal.Title>
+          <Modal.Title>댓글 수정 확인</Modal.Title>
         </Modal.Header>
         <Modal.Body></Modal.Body>
         <Modal.Footer>
