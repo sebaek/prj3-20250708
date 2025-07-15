@@ -149,7 +149,7 @@ export function CommentItem({ comment, isProcessing, setIsProcessing }) {
               >
                 취소
               </Button>
-              <Button variant="danger" onClick={handleUpdateButtonClick}>
+              <Button variant="primary" onClick={handleUpdateButtonClick}>
                 저장
               </Button>
             </Modal.Footer>
