@@ -32,7 +32,22 @@ function CommentItem({ comment, isProcessing, setIsProcessing }) {
   }
 
   function handleUpdateButtonClick() {
-    // todo : 댓글 수정 코드...
+    setIsProcessing(true);
+    axios
+      .put(`/api/comment`, {
+        id: comment.id,
+        comment: nextComment,
+      })
+      .then(() => {
+        toast.success("댓글이 수정되었습니다.");
+      })
+      .catch(() => {
+        toast.error("댓글 수정 중 문제가 발생하였습니다.");
+      })
+      .finally(() => {
+        setIsProcessing(false);
+        setEditModalShow(false);
+      });
   }
 
   return (
