@@ -2,7 +2,7 @@ import { Button, FormControl } from "react-bootstrap";
 import { useState } from "react";
 import axios from "axios";
 import { CommentAdd } from "./CommentAdd.jsx";
-import { ComentList } from "./ComentList.jsx";
+import { CommentList } from "./CommentList.jsx";
 
 export function CommentContainer({ boardId }) {
   return (
@@ -10,7 +10,7 @@ export function CommentContainer({ boardId }) {
       <h3>댓글 창</h3>
 
       <CommentAdd boardId={boardId} />
-      <ComentList />
+      <CommentList boardId={boardId} />
     </div>
   );
 }
