@@ -1,6 +1,7 @@
 package com.example.backend.member.service;
 
 import com.example.backend.board.repository.BoardRepository;
+import com.example.backend.comment.repository.CommentRepository;
 import com.example.backend.member.dto.*;
 import com.example.backend.member.entity.Auth;
 import com.example.backend.member.entity.Member;
@@ -30,6 +31,7 @@ public class MemberService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final AuthRepository authRepository;
     private final BoardRepository boardRepository;
+    private final CommentRepository commentRepository;
 
     public void add(MemberForm memberForm) {
 
@@ -101,6 +103,7 @@ public class MemberService {
         Member db = memberRepository.findById(memberForm.getEmail()).get();
 //        if (db.getPassword().equals(memberForm.getPassword())) {
         if (passwordEncoder.matches(memberForm.getPassword(), db.getPassword())) {
+            commentRepository.deleteByAuthor(db);
             boardRepository.deleteByAuthor(db);
             memberRepository.delete(db);
         } else {
