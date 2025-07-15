@@ -1,11 +1,19 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Button, Modal, Spinner } from "react-bootstrap";
+import {
+  Button,
+  FormControl,
+  FormGroup,
+  FormLabel,
+  Modal,
+  Spinner,
+} from "react-bootstrap";
 import { toast } from "react-toastify";
 
 function CommentItem({ comment, isProcessing, setIsProcessing }) {
   const [deleteModalShow, setDeleteModalShow] = useState(false);
   const [editModalShow, setEditModalShow] = useState(false);
+  const [nextComment, setNextComment] = useState(comment.comment);
 
   function handleDeleteButtonClick() {
     setIsProcessing(true);
@@ -42,7 +50,10 @@ function CommentItem({ comment, isProcessing, setIsProcessing }) {
           {isProcessing && <Spinner size="sm" />}
           삭제
         </Button>
-        <Button>수정</Button>
+        <Button disabled={isProcessing} onClick={() => setEditModalShow(true)}>
+          {isProcessing && <Spinner size="sm" />}
+          수정
+        </Button>
       </div>
 
       {/*  댓글 삭제 모달  */}
@@ -72,13 +83,26 @@ function CommentItem({ comment, isProcessing, setIsProcessing }) {
       {/*  댓글 수정 모달  */}
       <Modal show={editModalShow} onHide={() => setEditModalShow(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>댓글 수정 확인</Modal.Title>
+          <Modal.Title>댓글 수정</Modal.Title>
         </Modal.Header>
-        <Modal.Body></Modal.Body>
+        <Modal.Body>
+          <FormGroup controlId={"commentTextarea" + comment.id}>
+            <FormLabel>수정 할 댓글</FormLabel>
+            <FormControl
+              as="textarea"
+              rows={5}
+              value={nextComment}
+              onChange={(e) => setNextComment(e.target.value)}
+            />
+          </FormGroup>
+        </Modal.Body>
         <Modal.Footer>
           <Button
             variant="outline-dark"
-            onClick={() => setEditModalShow(false)}
+            onClick={() => {
+              setNextComment(comment.comment);
+              setEditModalShow(false);
+            }}
           >
             취소
           </Button>
