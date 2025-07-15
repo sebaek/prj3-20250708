@@ -3,8 +3,9 @@ import axios from "axios";
 import { Button, Spinner } from "react-bootstrap";
 import { toast } from "react-toastify";
 
-function CommentItem({ comment }) {
+function CommentItem({ comment, isProcessing, setIsProcessing }) {
   function handleDeleteButtonClick() {
+    setIsProcessing(true);
     axios
       .delete(`/api/comment/${comment.id}`)
       .then(() => {
@@ -13,7 +14,9 @@ function CommentItem({ comment }) {
       .catch(() => {
         toast("댓글 삭제 중 문제가 발생하였습니다.", { type: "error" });
       })
-      .finally(() => {});
+      .finally(() => {
+        setIsProcessing(false);
+      });
   }
 
   return (
@@ -24,14 +27,17 @@ function CommentItem({ comment }) {
       </div>
       <div>{comment.comment}</div>
       <div>
-        <Button onClick={handleDeleteButtonClick}>삭제</Button>
+        <Button disabled={isProcessing} onClick={handleDeleteButtonClick}>
+          {isProcessing && <Spinner size="sm" />}
+          삭제
+        </Button>
         <Button>수정</Button>
       </div>
     </div>
   );
 }
 
-export function CommentList({ boardId, isProcessing }) {
+export function CommentList({ boardId, isProcessing, setIsProcessing }) {
   const [commentList, setCommentList] = useState(null);
 
   useEffect(() => {
@@ -53,7 +59,12 @@ export function CommentList({ boardId, isProcessing }) {
   return (
     <div>
       {commentList.map((comment) => (
-        <CommentItem comment={comment} key={comment.id} />
+        <CommentItem
+          setIsProcessing={setIsProcessing}
+          isProcessing={isProcessing}
+          comment={comment}
+          key={comment.id}
+        />
       ))}
     </div>
   );

@@ -14,7 +14,11 @@ export function CommentContainer({ boardId }) {
         isProcessing={isProcessing}
         setIsProcessing={setIsProcessing}
       />
-      <CommentList boardId={boardId} isProcessing={isProcessing} />
+      <CommentList
+        boardId={boardId}
+        isProcessing={isProcessing}
+        setIsProcessing={setIsProcessing}
+      />
     </div>
   );
 }
