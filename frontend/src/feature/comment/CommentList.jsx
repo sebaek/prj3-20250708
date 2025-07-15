@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Spinner } from "react-bootstrap";
-import * as PropTypes from "prop-types";
 
 function CommentItem({ comment }) {
   return (
