@@ -95,7 +95,7 @@ public class BoardService {
                         try (bi; bo) {
                             byte[] b = new byte[1024];
                             int len;
-                            while ((len = bi.read()) != -1) {
+                            while ((len = bi.read(b)) != -1) {
                                 bo.write(b, 0, len);
                             }
                             bo.flush();
