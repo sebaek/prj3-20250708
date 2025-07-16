@@ -2,6 +2,7 @@ package com.example.backend.board.controller;
 
 import com.example.backend.board.dto.BoardAddForm;
 import com.example.backend.board.dto.BoardDto;
+import com.example.backend.board.dto.BoardUpdateDto;
 import com.example.backend.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,18 +24,29 @@ public class BoardController {
     @PutMapping("{id}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> updateBoard(@PathVariable Integer id,
-                                         @RequestBody BoardDto boardDto,
+                                         BoardUpdateDto boardDto,
                                          Authentication authentication) {
-        boolean result = boardService.validate(boardDto);
-        if (result) {
-            boardService.update(boardDto, authentication);
 
-            return ResponseEntity.ok().body(Map.of("message",
-                    Map.of("type", "success", "text", id + "번 게시물이 수정 되었습니다.")));
-        } else {
-            return ResponseEntity.badRequest().body(Map.of("message",
-                    Map.of("type", "error", "text", "입력한 내용이 유효하지 않습니다.")));
-        }
+        System.out.println(boardDto);
+        System.out.println("추가 파일########");
+        boardDto.getFiles().forEach(boardFile -> {
+            System.out.println(boardFile.getOriginalFilename());
+        });
+        System.out.println("삭제 파일########");
+        boardDto.getDeleteFiles().forEach(System.out::println);
+
+        return null;
+
+//        boolean result = boardService.validate(boardDto);
+//        if (result) {
+//            boardService.update(boardDto, authentication);
+//
+//            return ResponseEntity.ok().body(Map.of("message",
+//                    Map.of("type", "success", "text", id + "번 게시물이 수정 되었습니다.")));
+//        } else {
+//            return ResponseEntity.badRequest().body(Map.of("message",
+//                    Map.of("type", "error", "text", "입력한 내용이 유효하지 않습니다.")));
+//        }
 
     }
 
