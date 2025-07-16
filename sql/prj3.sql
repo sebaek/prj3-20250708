@@ -70,7 +70,15 @@ CREATE TABLE comment
 );
 
 
-
+#좋아요 테이블
+CREATE TABLE board_like
+(
+    board_id     INT          NOT NULL,
+    member_email VARCHAR(255) NOT NULL,
+    PRIMARY KEY (board_id, member_email),
+    FOREIGN KEY (board_id) REFERENCES board (id),
+    FOREIGN KEY (member_email) REFERENCES member (email)
+);
 
 
 
