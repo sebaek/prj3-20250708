@@ -18,7 +18,11 @@ RUN mkdir -p backend/src/main/resources/static && \
     cp -r frontend-dist/* backend/src/main/resources/static/
 
 WORKDIR /app/backend
-RUN gradle bootJar
+# Gradle Wrapper 권한 부여
+RUN chmod +x ./gradlew
+
+# 빌드 실행 (Gradle Wrapper 사용)
+RUN ./gradlew bootJar
 
 ### 3단계: 최종 실행용 이미지
 FROM openjdk:21
