@@ -9,5 +9,5 @@ import java.util.List;
 public interface BoardFileRepository extends JpaRepository<BoardFile, BoardFileId> {
     List<BoardFile> findByBoardId(Integer id);
 
-    void deleteByBoardIdAndIdName(Integer id, String name);
+
 }
