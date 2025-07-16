@@ -7,6 +7,7 @@ import com.example.backend.board.entity.BoardFileId;
 import com.example.backend.board.repository.BoardFileRepository;
 import com.example.backend.board.repository.BoardRepository;
 import com.example.backend.comment.repository.CommentRepository;
+import com.example.backend.like.repository.BoardLikeRepository;
 import com.example.backend.member.entity.Member;
 import com.example.backend.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,7 @@ public class BoardService {
     private final MemberRepository memberRepository;
     private final CommentRepository commentRepository;
     private final BoardFileRepository boardFileRepository;
+    private final BoardLikeRepository boardLikeRepository;
 
     public void add(BoardAddForm dto, Authentication authentication) {
         if (authentication == null) {
@@ -174,6 +176,11 @@ public class BoardService {
         Board db = boardRepository.findById(id).get();
 
         if (db.getAuthor().getEmail().equals(authentication.getName())) {
+            // 좋아요
+            boardLikeRepository.deleteByBoard(db);
+            // 파일
+            boardFileRepository.deleteByBoard(db);
+            // 댓글
             commentRepository.deleteByBoardId(id);
             boardRepository.deleteById(id);
         } else {
