@@ -12,5 +12,5 @@ public class BoardUpdateDto {
     private String content;
 
     private List<MultipartFile> files;
-    private List<String> deleteFiles;
+    private String[] deleteFiles;
 }

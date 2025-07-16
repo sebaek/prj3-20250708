@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.Map;
 
 //@Controller
@@ -33,7 +34,7 @@ public class BoardController {
             System.out.println(boardFile.getOriginalFilename());
         });
         System.out.println("삭제 파일########");
-        boardDto.getDeleteFiles().forEach(System.out::println);
+        Arrays.stream(boardDto.getDeleteFiles()).forEach(System.out::println);
 
         return null;
 

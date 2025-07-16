@@ -86,6 +86,8 @@ export function BoardEdit() {
     validate = false;
   }
 
+  console.log(deleteFiles);
+
   return (
     <Row className="justify-content-center">
       <Col xs={12} md={8} lg={6}>
@@ -121,11 +123,11 @@ export function BoardEdit() {
                     value={file.name}
                     onChange={(e) => {
                       if (e.target.checked) {
+                        setDeleteFiles([...deleteFiles, e.target.value]);
+                      } else {
                         setDeleteFiles(
                           deleteFiles.filter((item) => item !== e.target.value),
                         );
-                      } else {
-                        setDeleteFiles([...deleteFiles, e.target.value]);
                       }
                     }}
                   />
