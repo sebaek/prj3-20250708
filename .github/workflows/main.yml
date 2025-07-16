@@ -21,6 +21,5 @@ jobs:
             cd /home/${{ secrets.EC2_USER }}/projects/prj3
             git fetch --all --tags
             git checkout ${{ github.ref_name }}
-            chmod +x run.sh
             ./run.sh
           EOF
