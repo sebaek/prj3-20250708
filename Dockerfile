@@ -21,7 +21,7 @@ WORKDIR /app/backend
 RUN gradle bootJar
 
 ### 3단계: 최종 실행용 이미지
-FROM eclipse-temurin:17-jdk-alpine
+FROM openjdk:21
 
 WORKDIR /app
 COPY --from=backend-builder /app/backend/build/libs/*.jar app.jar
